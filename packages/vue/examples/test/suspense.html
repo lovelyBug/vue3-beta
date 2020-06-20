@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="../../dist/vue.global.js"></script>
+</head>
+<body>
+  <div id="app">
+    <Suspense>
+      <template #default>
+        <Comp/>
+      </template>
+      <template #fallback>
+        loading...
+      </template>
+    </Suspense>
+  </div>
+  <script>
+    const { createApp, reactive, component, onMounted } = Vue
+    const Comp = {
+      props: {},
+      template: `<div>用户名：{{ userName }}</div>`,
+      async setup() {
+        const userName = await fetchUsername()
+        return { userName }
+      }
+    }
+    createApp({
+      components: {
+        Comp
+      }
+    }).mount("#app")
+    // 获取用户名
+    async function fetchUsername () {
+      await timeout(2000)
+      return '小黑'
+    }
+    function timeout(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms))
+    }
+  </script>
+</body>
+</html>

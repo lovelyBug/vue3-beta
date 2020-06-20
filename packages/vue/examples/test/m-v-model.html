@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="../../dist/vue.global.js"></script>
+</head>
+<body>
+  <div id="app">
+    <div>{{ state.name }}</div>
+    <Comp v-model:name="state.name"/>
+  </div>
+  <script>
+    const { createApp, reactive, component, onMounted } = Vue
+    const Comp = {
+      props: {
+        name: {
+          type: String,
+          default: ''
+        },
+        age: {
+          type: Number,
+          default: 18
+        }
+      },
+      template: `<input :value="name" @input="updateName($event.target.value)">`,
+      setup(props, context) {
+        const updateName = (newValue) => {
+          context.emit('update:name', newValue)
+        }
+        return { updateName }
+      }
+    }
+    createApp({
+      components: {
+        Comp
+      },
+      setup() {
+        const state = reactive({
+          name: 'Json'
+        })
+        return {
+          state
+        }
+      }
+    }).mount("#app")
+  </script>
+</body>
+</html>

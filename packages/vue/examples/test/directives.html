@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="../../dist/vue.global.js"></script>
+</head>
+<body>
+  <div id="app">
+    <div v-if="state.count < 3" v-test="state.count"></div>
+    <button @click="add">加一</button>
+  </div>
+  <script>
+    const { createApp, reactive } = Vue
+    const app =  createApp({
+      setup () {
+        const state = reactive({
+          count: 1
+        })
+        const add = () => {
+          state.count++
+        }
+        return {
+          state,
+          add
+        }
+      }
+    })
+    app.directive('test', {
+      beforeMount(el, binding, vnode, prevVnode) {
+        console.log('beforeMount')
+        el.innerHTML = binding.value
+      },
+      mounted() {
+        console.log('mounted')
+      },
+      beforeUpdate() {
+        console.log('beforeUpdate')
+      },
+      updated(el, binding) {
+        el.innerHTML = binding.value
+        console.log('updated')
+      },
+      beforeUnmount() {
+        console.log('beforeUnmount')
+      },
+      unmounted() {
+        console.log('unmounted')
+      }
+    })
+    app.mount("#app")
+  </script>
+</body>
+</html>

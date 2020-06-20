@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="../../dist/vue.global.js"></script>
+</head>
+<body>
+  <div id="app">
+    <div v-if="state.count < 2">{{ state.count }}</div>
+    <button @click="add">加一</button>
+  </div>
+  <script>
+
+    const { createApp, reactive, onBeforeMount, onMounted, onBeforeUpdate, onUpdated, onBeforeUnmount, onUnmounted, onRenderTracked, onRenderTriggered } = Vue
+    createApp({
+      setup() {
+        onBeforeMount(() => {
+          console.log('vue3: onBeforeMount')
+        })
+        onMounted(() => {
+          console.log('vue3: onMounted')
+        })
+        onBeforeUpdate(() => {
+          console.log('vue3: onBeforeUpdate')
+        })
+        onUpdated(() => {
+          console.log('vue3: onUpdated')
+        })
+        onBeforeUnmount(() => {
+          console.log('vue3: onBeforeUnmount')
+        })
+        onUnmounted(() => {
+          console.log('vue3: onUnmounted')
+        })
+        onRenderTracked((e) => {
+          console.log('vue3: onRenderTracked' ,e)
+        })
+        onRenderTriggered((e) => {
+          console.log('vue3: onRenderTriggered', e)
+        })
+        const state = reactive({
+          count: 1
+        })
+        const add = () =>{
+          state.count++
+        }
+        return {
+          state,
+          add
+        }
+      },
+      // beforeCreate() {
+      //   console.log('vue2: beforeCreate')
+      // },
+      // created() {
+      //   console.log('vue2: created')
+      // },
+      // beforeMount() {
+      //   console.log('vue2: beforeMount')
+      // },
+      // mounted() {
+      //   console.log('vue2: mounted')
+      // },
+      // beforeUpdate() {
+      //   console.log('vue2: beforeUpdate')
+      // },
+      // updated() {
+      //   console.log('vue2: updated')
+      // },
+      // beforeDestroy() {
+      //   console.log('vue2: beforeDestroy')
+      // },
+      // destroyed() {
+      //   console.log('vue2: destroyed')
+      // }
+    }).mount("#app")
+  </script>
+  
+</body>
+</html>
